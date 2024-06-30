@@ -1,5 +1,6 @@
 use std::fs::File;
 use std::io::Read;
+use std::path::Path;
 use serde::Deserialize;
 
 #[derive(Debug, Deserialize)]
@@ -16,8 +17,8 @@ pub struct FieldDefinition {
 }
 
 impl EntityDefinition {
-    pub fn new(filename: &str) -> Self {
-        let mut file = File::open(filename).expect("Failed to open file");
+    pub fn new(path: &Path) -> Self {
+        let mut file = File::open(path).expect("Failed to open file");
         let mut contents = String::new();
         file.read_to_string(&mut contents).expect("Failed to read file");
 
