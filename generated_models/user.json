@@ -1,5 +1,6 @@
 {
   "entity": "User",
+  "endpoints": ["GET_BY_ID", "GET_LIST", "CREATE", "UPDATE", "DELETE"],
   "fields": [
     { "name": "id", "type": "i32" },
     { "name": "username", "type": "String" },

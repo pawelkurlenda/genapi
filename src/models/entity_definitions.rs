@@ -6,6 +6,8 @@ use serde::Deserialize;
 #[derive(Debug, Deserialize)]
 pub struct EntityDefinition {
     pub entity: String,
+    #[serde(rename = "endpoints")]
+    pub endpoint_types: Vec<EndpointType>,
     pub fields: Vec<FieldDefinition>,
 }
 
@@ -14,6 +16,20 @@ pub struct FieldDefinition {
     pub name: String,
     #[serde(rename = "type")]
     pub field_type: String,
+}
+
+#[derive(Debug, Deserialize)]
+pub enum EndpointType {
+    #[serde(rename = "GET_BY_ID")]
+    GetById,
+    #[serde(rename = "GET_LIST")]
+    GetList,
+    #[serde(rename = "CREATE")]
+    Create,
+    #[serde(rename = "UPDATE")]
+    Update,
+    #[serde(rename = "DELETE")]
+    Delete
 }
 
 impl EntityDefinition {
