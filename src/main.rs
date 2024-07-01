@@ -5,37 +5,6 @@ mod macros;
 mod models;
 
 
-macro_rules! generate_struct {
-    ($entity:expr) => {
-        {
-            let entity_name = &($entity.entity);
-            println!("{}", entity_name);
-
-            for field in $entity.fields.iter() {
-                println!("{}", &field.name);
-            }
-
-            let fields = $entity.fields.iter().map(|f| {
-                let f_n = &f.name;
-                let f_t = &f.field_type;
-
-                quote::quote! {
-                    pub #f_n: #f_t,
-                }
-            });
-
-            // Correct struct implementation
-
-            quote::quote! {
-                #[derive(Debug, Serialize, Deserialize)]
-                struct #entity_name {
-                    #(#fields)*
-                }
-            }
-        }
-    };
-}
-
 fn main() {
     let paths = fs::read_dir("./generated_models").unwrap();
 
@@ -48,7 +17,7 @@ fn main() {
     }
 
     for entity in &entity_definitions {
-        let struct_definition = generate_struct!(entity);
+        let struct_definition = generate_struct_2!(entity);
     }
 
     println!("Hello, world!");
