@@ -17,7 +17,8 @@ fn main() {
     }
 
     for entity in &entity_definitions {
-        let struct_definition = generate_struct_2!(entity);
+        generate_crud_handlers_2!(entity);
+        //let struct_definition = generate_struct_2!(entity);
     }
 
     println!("Hello, world!");
