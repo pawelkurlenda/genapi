@@ -1,11 +1,19 @@
 use std::fs;
+use actix_web::{App, HttpServer};
+use utoipa::OpenApi;
+//use utoipa_swagger_ui::SwaggerUi;
 use crate::models::entity_definitions::EntityDefinition;
 
 mod macros;
 mod models;
 
 
-fn main() {
+//#[derive(OpenApi)]
+//#[openapi(paths(get_model))]
+struct ApiDoc;
+
+#[actix_web::main]
+async fn main() -> std::io::Result<()> {
     let paths = fs::read_dir("./generated_models").unwrap();
 
     let mut entity_definitions: Vec<EntityDefinition> = Vec::new();
@@ -18,10 +26,23 @@ fn main() {
 
     for entity in &entity_definitions {
         generate_crud_handlers_2!(entity);
-        //let struct_definition = generate_struct_2!(entity);
+        //let struct_definition = generate_struct!(entity);
     }
 
-    println!("Hello, world!");
+    //let api_doc = ApiDoc::openapi();
+
+    Ok(())
+
+    /*HttpServer::new(|| {
+        App::new()
+            .service(hello)
+            .service(echo)
+            .service(SwaggerUi::new("/swagger-ui/{_:.*}").url("/api-docs/openapi.json", api_doc.clone()))
+            .route("/hey", web::get().to(manual_hello))
+    })
+    .bind(("127.0.0.1", 8080))?
+    .run()
+    .await*/
 }
 
 
