@@ -1,17 +1,23 @@
-use crate::{generate_create, generate_delete, generate_get_by_id, generate_get_list, generate_struct_2, generate_update};
+use crate::{generate_create, generate_delete, generate_get_by_id, generate_get_list, generate_struct, generate_update};
 #[macro_export]
 macro_rules! generate_crud_handlers_2 {
     ($entity:expr) => {
         // Generate struct definition
-        generate_struct_2!($entity);
+        generate_struct!($entity);
 
         let entity_name = &($entity.entity);
 
-        /*generate_get_by_id!($entity)
+        for a in $entity.endpoint_types.iter() {
+            //println!("{:?}", a);
+        }
+
+        /*
+        generate_get_by_id!($entity)
         generate_get_list!($entity)
         generate_create!($entity)
         generate_update!($entity)
-        generate_delete!($entity)*/
+        generate_delete!($entity)
+        */
 
         // Generate CRUD handlers
         quote::quote! {
@@ -23,6 +29,10 @@ macro_rules! generate_crud_handlers_2 {
                 //
                 //generate_create!($entity)
                 //
+                if endpoints.contains(EndpointType::Create) {
+                    println!("CreateCreate");
+                    generate_create!($entity)
+                }
                 /*#[actix_web::post("/create")]
                 pub async fn create(item: web::Json<$entity.entity>) -> HttpResponse {
                     println!("Creating {:?}", item);
@@ -34,6 +44,10 @@ macro_rules! generate_crud_handlers_2 {
                 //
                 //generate_get_by_id!($entity)
                 //
+                if endpoints.contains(EndpointType::GetById) {
+                    println!("GetByIdGetById");
+                    generate_get_by_id!($entity)
+                }
                 /*#[actix_web::get("/read/{id}")]
                 pub async fn read(path: web::Path<(i32,)>) -> HttpResponse {
                     let id = path.into_inner().0;
@@ -50,6 +64,10 @@ macro_rules! generate_crud_handlers_2 {
                 //
                 //generate_get_list!($entity)
                 //
+                if endpoints.contains(EndpointType::GetList) {
+                    println!("GetListGetList");
+                    generate_get_list!($entity)
+                }
                 /*#[actix_web::get("/read/{id}")]
                 pub async fn read(path: web::Path<(i32,)>) -> HttpResponse {
                     let id = path.into_inner().0;
@@ -66,6 +84,10 @@ macro_rules! generate_crud_handlers_2 {
                 //
                 //generate_update!($entity)
                 //
+                if endpoints.contains(EndpointType::Update) {
+                    println!("UpdateUpdate");
+                    generate_update!($entity)
+                }
                 /*#[actix_web::put("{id}")]
                 pub async fn update(path: web::Path<(i32,)>, item: web::Json<$entity.entity>) -> HttpResponse {
                     let id = path.into_inner().0;
@@ -78,6 +100,10 @@ macro_rules! generate_crud_handlers_2 {
                 //
                 //generate_delete!($entity)
                 //
+                if endpoints.contains(EndpointType::Delete) {
+                    println!("DeleteDelete");
+                    generate_delete!($entity)
+                }
                 /*#[actix_web::delete("/delete/{id}")]
                 pub async fn delete(path: web::Path<(i32,)>) -> HttpResponse {
                     let id = path.into_inner().0;

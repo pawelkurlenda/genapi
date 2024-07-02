@@ -2,9 +2,10 @@
 macro_rules! generate_get_by_id {
     ($entity:expr) => {
         // Generate struct definition
-        //generate_struct_2!($entity);
+        //generate_struct!($entity);
 
         let entity_name = &($entity.entity);
+        println!("generate_get_by_id");
 
         // Generate CRUD handlers
         quote::quote! {
@@ -29,9 +30,10 @@ macro_rules! generate_get_by_id {
 macro_rules! generate_get_list {
     ($entity:expr) => {
         // Generate struct definition
-        //generate_struct_2!($entity);
+        //generate_struct!($entity);
 
         let entity_name = &($entity.entity);
+        println!("generate_get_list");
 
         // Generate CRUD handlers
         quote::quote! {
@@ -56,9 +58,10 @@ macro_rules! generate_get_list {
 macro_rules! generate_create {
     ($entity:expr) => {
         // Generate struct definition
-        //generate_struct_2!($entity);
+        //generate_struct!($entity);
 
         let entity_name = &($entity.entity);
+        println!("generate_create");
 
         // Generate CRUD handlers
         quote::quote! {
@@ -78,9 +81,10 @@ macro_rules! generate_create {
 macro_rules! generate_update {
     ($entity:expr) => {
         // Generate struct definition
-        //generate_struct_2!($entity);
+        //generate_struct!($entity);
 
         let entity_name = &($entity.entity);
+        println!("generate_update");
 
         // Generate CRUD handlers
         quote::quote! {
@@ -101,9 +105,10 @@ macro_rules! generate_update {
 macro_rules! generate_delete {
     ($entity:expr) => {
         // Generate struct definition
-        //generate_struct_2!($entity);
+        //generate_struct!($entity);
 
         let entity_name = &($entity.entity);
+        println!("generate_delete");
 
         // Generate CRUD handlers
         quote::quote! {
