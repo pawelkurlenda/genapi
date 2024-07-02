@@ -18,7 +18,7 @@ pub struct FieldDefinition {
     pub field_type: String,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, PartialEq)]
 pub enum EndpointType {
     #[serde(rename = "GET_BY_ID")]
     GetById,

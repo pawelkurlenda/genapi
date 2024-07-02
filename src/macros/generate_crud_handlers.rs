@@ -8,8 +8,20 @@ macro_rules! generate_crud_handlers_2 {
         let entity_name = &($entity.entity);
 
         for a in $entity.endpoint_types.iter() {
-            //println!("{:?}", a);
+            println!("{}", is_endpoint_to_generate!($entity, a));
+
+            if is_endpoint_to_generate!($entity, a) {
+                println!("OK, {:?}", a);
+            }
+            else {
+                println!("NOT, {:?}", a);
+            }
         }
+
+        /*if $entity.endpoint_types.contains(EndpointType::Create) {
+            println!("CreateCreate");
+            //generate_create!($entity)
+        }*/
 
         /*
         generate_get_by_id!($entity)
