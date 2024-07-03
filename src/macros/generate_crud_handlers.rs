@@ -21,19 +21,24 @@ macro_rules! generate_crud_handlers_2 {
             // todo figute it out how to remove comparing to string or enum (idea - generate_endpoints! on enum in EndpointType)
 
             if a.to_str() == "GET_BY_ID" {
-                println!("GET_BY_ID, {:?}", a);
+                //println!("GET_BY_ID, {:?}", a);
+                generate_get_by_id!($entity);
             }
             else if a.to_str() == "GET_LIST" {
-                println!("GET_LIST, {:?}", a);
+                //println!("GET_LIST, {:?}", a);
+                generate_get_list!($entity);
             }
             else if a.to_str() == "CREATE" {
-                println!("CREATE, {:?}", a);
+                //println!("CREATE, {:?}", a);
+                generate_create!($entity);
             }
             else if a.to_str() == "UPDATE" {
-                println!("UPDATE, {:?}", a);
+                //println!("UPDATE, {:?}", a);
+                generate_update!($entity);
             }
             else if a.to_str() == "DELETE" {
-                println!("DELETE, {:?}", a);
+                //println!("DELETE, {:?}", a);
+                generate_delete!($entity);
             }
         }
 
