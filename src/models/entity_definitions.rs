@@ -41,3 +41,15 @@ impl EntityDefinition {
         serde_json::from_str(&contents).expect("Failed to parse JSON")
     }
 }
+
+impl EndpointType {
+    pub fn to_str(&self) -> String {
+        match self {
+            EndpointType::GetById => "GET_BY_ID".to_string(),
+            EndpointType::GetList => "GET_LIST".to_string(),
+            EndpointType::Create => "CREATE".to_string(),
+            EndpointType::Update => "UPDATE".to_string(),
+            EndpointType::Delete => "DELETE".to_string()
+        }
+    }
+}

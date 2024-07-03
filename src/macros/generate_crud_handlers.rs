@@ -1,4 +1,5 @@
 use crate::{generate_create, generate_delete, generate_get_by_id, generate_get_list, generate_struct, generate_update};
+use crate::models::entity_definitions::EndpointType;
 #[macro_export]
 macro_rules! generate_crud_handlers_2 {
     ($entity:expr) => {
@@ -8,17 +9,36 @@ macro_rules! generate_crud_handlers_2 {
         let entity_name = &($entity.entity);
 
         for a in $entity.endpoint_types.iter() {
-            println!("{}", is_endpoint_to_generate!($entity, a));
+            /*println!("{}", is_endpoint_to_generate!($entity, a));
 
             if is_endpoint_to_generate!($entity, a) {
                 println!("OK, {:?}", a);
             }
             else {
                 println!("NOT, {:?}", a);
+            }*/
+
+            // todo figute it out how to remove comparing to string or enum (idea - generate_endpoints! on enum in EndpointType)
+
+            if a.to_str() == "GET_BY_ID" {
+                println!("GET_BY_ID, {:?}", a);
+            }
+            else if a.to_str() == "GET_LIST" {
+                println!("GET_LIST, {:?}", a);
+            }
+            else if a.to_str() == "CREATE" {
+                println!("CREATE, {:?}", a);
+            }
+            else if a.to_str() == "UPDATE" {
+                println!("UPDATE, {:?}", a);
+            }
+            else if a.to_str() == "DELETE" {
+                println!("DELETE, {:?}", a);
             }
         }
 
-        /*if $entity.endpoint_types.contains(EndpointType::Create) {
+        /*if contains_endpoint!($entity.endpoint_types, "CREATE") {
+            println!("{}", entity_name);
             println!("CreateCreate");
             //generate_create!($entity)
         }*/
