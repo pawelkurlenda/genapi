@@ -1,15 +1,15 @@
 use std::fs;
 use actix_web::{App, HttpServer};
 use utoipa::OpenApi;
-//use utoipa_swagger_ui::SwaggerUi;
+use utoipa_swagger_ui::SwaggerUi;
 use crate::models::entity_definitions::EntityDefinition;
 
 mod macros;
 mod models;
 
 
-//#[derive(OpenApi)]
-//#[openapi(paths(get_model))]
+#[derive(OpenApi)]
+#[openapi(paths(get_model))]
 struct ApiDoc;
 
 #[actix_web::main]
@@ -29,11 +29,9 @@ async fn main() -> std::io::Result<()> {
         //let struct_definition = generate_struct!(entity);
     }
 
-    //let api_doc = ApiDoc::openapi();
+    let api_doc = ApiDoc::openapi();
 
-    Ok(())
-
-    /*HttpServer::new(|| {
+    HttpServer::new(|| {
         App::new()
             .service(hello)
             .service(echo)
@@ -42,7 +40,7 @@ async fn main() -> std::io::Result<()> {
     })
     .bind(("127.0.0.1", 8080))?
     .run()
-    .await*/
+    .await
 }
 
 

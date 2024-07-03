@@ -16,7 +16,7 @@ macro_rules! generate_struct {
             // Correct struct implementation
 
             quote::quote! {
-                #[derive(Debug, Serialize, Deserialize)]
+                #[derive(Debug, Serialize, Deserialize, ToSchema)]
                 pub struct #entity_name {
                     #(#fields)*
                 }
