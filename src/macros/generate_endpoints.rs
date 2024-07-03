@@ -1,18 +1,18 @@
 #[macro_export]
-macro_rules! generate_get_by_id {
+macro_rules! generate_get_list {
     ($entity:expr) => {
         // Generate struct definition
         //generate_struct!($entity);
 
         let entity_name = &($entity.entity);
-        println!("generate_get_by_id");
+        println!("generate_get_list");
 
         // Generate CRUD handlers
         quote::quote! {
 
             // Read handler
-            #[actix_web::get("/{id}")]
-            pub async fn read(path: web::Path<(i32,)>) -> HttpResponse {
+            #[actix_web::get("/")]
+            pub async fn read(path: web::Path<(i32,)>) -> impl Responder {
                 let id = path.into_inner().0;
                 println!("Reading {} with id {}", stringify!($entity.entity), id);
                 // Implement your read logic here (e.g., fetch from database)
@@ -27,20 +27,20 @@ macro_rules! generate_get_by_id {
 }
 
 #[macro_export]
-macro_rules! generate_get_list {
+macro_rules! generate_get_by_id {
     ($entity:expr) => {
         // Generate struct definition
         //generate_struct!($entity);
 
         let entity_name = &($entity.entity);
-        println!("generate_get_list");
+        println!("generate_get_by_id");
 
         // Generate CRUD handlers
         quote::quote! {
 
             // Read handler
             #[actix_web::get("/{id}")]
-            pub async fn read(path: web::Path<(i32,)>) -> HttpResponse {
+            pub async fn read(path: web::Path<(i32,)>) -> impl Responder {
                 let id = path.into_inner().0;
                 println!("Reading {} with id {}", stringify!($entity.entity), id);
                 // Implement your read logic here (e.g., fetch from database)
@@ -67,8 +67,8 @@ macro_rules! generate_create {
         quote::quote! {
 
             // Create handler
-            #[actix_web::post("/create")]
-            pub async fn create(item: web::Json<$entity.entity>) -> HttpResponse {
+            #[actix_web::post("/")]
+            pub async fn create(item: web::Json<$entity.entity>) -> impl Responder {
                 println!("Creating {:?}", item);
                 // Implement your create logic here (e.g., saving to database)
                 HttpResponse::Ok().json(item.0)
@@ -90,8 +90,8 @@ macro_rules! generate_update {
         quote::quote! {
 
             // Update handler
-            #[actix_web::put("{id}")]
-            pub async fn update(path: web::Path<(i32,)>, item: web::Json<$entity.entity>) -> HttpResponse {
+            #[actix_web::put("/{id}")]
+            pub async fn update(path: web::Path<(i32,)>, item: web::Json<$entity.entity>) -> impl Responder {
                 let id = path.into_inner().0;
                 println!("Updating {} with id {}: {:?}", stringify!($entity.entity), id, item);
                 // Implement your update logic here (e.g., update in database)
@@ -114,8 +114,8 @@ macro_rules! generate_delete {
         quote::quote! {
 
             // Delete handler
-            #[actix_web::delete("/delete/{id}")]
-            pub async fn delete(path: web::Path<(i32,)>) -> HttpResponse {
+            #[actix_web::delete("/{id}")]
+            pub async fn delete(path: web::Path<(i32,)>) -> impl Responder {
                 let id = path.into_inner().0;
                 println!("Deleting {} with id {}", stringify!($entity.entity), id);
                 // Implement your delete logic here (e.g., delete from database)
