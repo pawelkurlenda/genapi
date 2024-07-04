@@ -1,5 +1,4 @@
 use crate::{generate_create, generate_delete, generate_get_by_id, generate_get_list, generate_struct, generate_update};
-use crate::models::entity_definitions::EndpointType;
 #[macro_export]
 macro_rules! generate_crud_handlers_2 {
     ($entity:expr) => {
