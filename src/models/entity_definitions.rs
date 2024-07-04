@@ -40,6 +40,15 @@ impl EntityDefinition {
 
         serde_json::from_str(&contents).expect("Failed to parse JSON")
     }
+
+    pub fn get_routes(&self) -> ConfigRoute {
+
+    }
+}
+
+pub struct ConfigRoute {
+    pub scope: String,
+    pub routes: Vec<String>
 }
 
 impl EndpointType {

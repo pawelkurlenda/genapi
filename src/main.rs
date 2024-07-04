@@ -35,10 +35,16 @@ async fn main() -> std::io::Result<()> {
 
         for entity in &entity_definitions {
 
-            app = app.service(
-                web::scope()
-                    .route()
-            );
+            let config_route = entity.get_routes();
+
+            let mut scope = web::scope(&config_route.scope);
+
+            for config_route_route in config_route.routes.iter() {
+                //scope = scope.route(config_route_route, );
+                scope = scope.service(); // todo pass endpoint function
+            }
+
+            app = app.service(scope);
         }
 
         app
