@@ -25,15 +25,17 @@ async fn main() -> std::io::Result<()> {
         entity_definitions.push(entity_definition);
     }
 
-    for entity in &entity_definitions {
+    /*for entity in &entity_definitions {
         generate_crud_handlers_2!(entity);
         //let struct_definition = generate_struct!(entity);
-    }
+    }*/
 
     HttpServer::new(move || {
         let mut app = App::new();
 
         for entity in &entity_definitions {
+
+            generate_crud_handlers_3!(entity);
 
             let config_route = entity.get_routes();
 
@@ -41,7 +43,7 @@ async fn main() -> std::io::Result<()> {
 
             for config_route_route in config_route.routes.iter() {
                 //scope = scope.route(config_route_route, );
-                scope = scope.service(); // todo pass endpoint function
+                //scope = scope.service(); // todo pass endpoint function
             }
 
             app = app.service(scope);
@@ -52,6 +54,29 @@ async fn main() -> std::io::Result<()> {
     .bind("127.0.0.1:8080")?
     .run()
     .await
+}
+
+pub fn configure_app(mut app: App, entity_definitions: &Vec<EntityDefinition>) -> App {
+    for entity in entity_definitions.iter() {
+        generate_struct!(entity);
+        generate_crud_handlers_3!(entity, entity.endpoints);
+        /*match entity.entity.as_str() {
+            "User" => {
+                generate_struct!(entity);
+                generate_crud_handlers_3!(entity, entity.endpoints);
+                app = app.configure(User::configure);
+            },
+            "Product" => {
+                generate_struct!(Product, id: i32, name: String, price: f64);
+                generate_crud_handlers_3!(Product, entity.endpoints);
+                app = app.configure(Product::configure);
+            },
+            _ => {
+                eprintln!("Unknown entity type: {}", entity.entity);
+            }
+        }*/
+    }
+    app
 }
 
 /*pub fn register(cfg: &mut web::ServiceConfig) {
