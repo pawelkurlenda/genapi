@@ -38,11 +38,14 @@ macro_rules! generate_get_by_id {
         //generate_struct!($entity);
 
         let entity_name = &($entity.entity);
+        let a = format!("{}{}", entity_name, "_get_by_id");
+
         println!("generate_get_by_id");
+        println!("{}", a);
 
         // Generate CRUD handlers
         quote::quote! {
-            mod #entity_name {
+            mod #a {
                 use super::*;
                 use actix_web::{web, HttpResponse};
 

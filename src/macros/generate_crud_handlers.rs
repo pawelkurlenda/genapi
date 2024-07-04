@@ -162,7 +162,7 @@ macro_rules! generate_crud_handlers_2 {
     };
 }
 
-#[macro_export]
+/*#[macro_export]
 macro_rules! generate_crud_handlers_3 {
     ($entity:expr) => {
         pub mod asd {
@@ -221,4 +221,4 @@ macro_rules! generate_crud_handlers_3 {
 
         asd::configure();
     };
-}
+}*/
