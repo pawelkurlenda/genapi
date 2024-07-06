@@ -162,63 +162,70 @@ macro_rules! generate_crud_handlers_2 {
     };
 }
 
-/*#[macro_export]
-macro_rules! generate_crud_handlers_3 {
-    ($entity:expr) => {
-        pub mod asd {
+#[macro_export]
+macro_rules! generate_crud_handlers_new {
+    ($entity:expr, $app:expr) => {
+
+        let entity_name = &($entity.entity);
+
+        pub mod entity_name {
             use super::*;
             use actix_web::{web, HttpResponse};
 
             pub fn configure(cfg: &mut web::ServiceConfig) {
-                let mut scope = web::scope(stringify!($entity).to_lowercase().as_str());
+                let mut scope = web::scope(stringify!(entity_name).to_lowercase().as_str());
 
-                if $entity.endpoints.contains(&"CREATE".to_string()) {
+                if $entity.endpoint_types.contains(&"CREATE".to_string()) {
                     #[actix_web::post("/create")]
-                    async fn create(item: web::Json<super::$entity>) -> HttpResponse {
+                    async fn create(item: web::Json<super::entity_name>) -> HttpResponse {
                         HttpResponse::Ok().json(item.0)
                     }
                     scope = scope.route("/create", web::post().to(create));
                 }
 
-                if $entity.endpoints.contains(&"GET_BY_ID".to_string()) {
+                if $entity.endpoint_types.contains(&"GET_BY_ID".to_string()) {
                     #[actix_web::get("/read/{id}")]
                     async fn read(path: web::Path<(i32,)>) -> HttpResponse {
                         let id = path.into_inner().0;
-                        HttpResponse::Ok().body(format!("Read entity {} with id {}", stringify!($entity), id))
+                        HttpResponse::Ok().body(format!("Read entity {} with id {}", stringify!(entity_name), id))
                     }
                     scope = scope.route("/read/{id}", web::get().to(read));
                 }
 
-                if $entity.endpoints.contains(&"GET_LIST".to_string()) {
+                if $entity.endpoint_types.contains(&"GET_LIST".to_string()) {
                     #[actix_web::get("/list")]
                     async fn list() -> HttpResponse {
-                        HttpResponse::Ok().body(format!("List of {}", stringify!($entity)))
+                        HttpResponse::Ok().body(format!("List of {}", stringify!(entity_name)))
                     }
                     scope = scope.route("/list", web::get().to(list));
                 }
 
-                if $entity.endpoints.contains(&"UPDATE".to_string()) {
+                if $entity.endpoint_types.contains(&"UPDATE".to_string()) {
                     #[actix_web::put("/update/{id}")]
-                    async fn update(path: web::Path<(i32,)>, item: web::Json<super::$entity>) -> HttpResponse {
+                    async fn update(path: web::Path<(i32,)>, item: web::Json<super::entity_name>) -> HttpResponse {
                         let id = path.into_inner().0;
                         HttpResponse::Ok().json(item.0)
                     }
                     scope = scope.route("/update/{id}", web::put().to(update));
                 }
 
-                if $entity.endpoints.contains(&"DELETE".to_string()) {
+                if $entity.endpoint_types.contains(&"DELETE".to_string()) {
                     #[actix_web::delete("/delete/{id}")]
                     async fn delete(path: web::Path<(i32,)>) -> HttpResponse {
                         let id = path.into_inner().0;
-                        HttpResponse::Ok().body(format!("Deleted entity {} with id {}", stringify!($entity), id))
+                        HttpResponse::Ok().body(format!("Deleted entity {} with id {}", stringify!(entity_name), id))
                     }
                     scope = scope.route("/delete/{id}", web::delete().to(delete));
                 }
 
                 cfg.service(scope);
             }
-        }
 
-        asd::configure();
+            impl crate::Configurable for $entity {
+                fn configure(cfg: &mut web::ServiceConfig) {
+                    configure(cfg);
+                }
+            }
+        }
     };
-}*/
+}

@@ -1,6 +1,7 @@
 use std::fs::File;
 use std::io::Read;
 use std::path::Path;
+use actix_web::web::ServiceConfig;
 use serde::Deserialize;
 
 #[derive(Debug, Deserialize)]
@@ -61,4 +62,8 @@ impl EndpointType {
             EndpointType::Delete => "DELETE".to_string()
         }
     }
+}
+
+pub trait Configurable {
+    fn configure(cfg: &mut ServiceConfig);
 }
