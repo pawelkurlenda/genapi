@@ -5,11 +5,14 @@ macro_rules! generate_get_list {
         //generate_struct!($entity);
 
         let entity_name = &($entity.entity);
+        let mod_name = format!("{}{}", entity_name, "_get_list");
+
         println!("generate_get_list");
+        println!("{}", mod_name);
 
         // Generate CRUD handlers
         quote::quote! {
-            mod #entity_name {
+            mod #mod_name {
                 use super::*;
                 use actix_web::{web, HttpResponse};
 
@@ -38,14 +41,14 @@ macro_rules! generate_get_by_id {
         //generate_struct!($entity);
 
         let entity_name = &($entity.entity);
-        let a = format!("{}{}", entity_name, "_get_by_id");
+        let mod_name = format!("{}{}", entity_name, "_get_by_id");
 
         println!("generate_get_by_id");
-        println!("{}", a);
+        println!("{}", mod_name);
 
         // Generate CRUD handlers
         quote::quote! {
-            mod #a {
+            mod #mod_name {
                 use super::*;
                 use actix_web::{web, HttpResponse};
 
@@ -74,11 +77,14 @@ macro_rules! generate_create {
         //generate_struct!($entity);
 
         let entity_name = &($entity.entity);
+        let mod_name = format!("{}{}", entity_name, "_create");
+
         println!("generate_create");
+        println!("{}", mod_name);
 
         // Generate CRUD handlers
         quote::quote! {
-            mod #entity_name {
+            mod #mod_name {
                 use super::*;
                 use actix_web::{web, HttpResponse};
 
@@ -102,11 +108,14 @@ macro_rules! generate_update {
         //generate_struct!($entity);
 
         let entity_name = &($entity.entity);
+        let mod_name = format!("{}{}", entity_name, "_update");
+
         println!("generate_update");
+        println!("{}", mod_name);
 
         // Generate CRUD handlers
         quote::quote! {
-            mod #entity_name {
+            mod #mod_name {
                 use super::*;
                 use actix_web::{web, HttpResponse};
 
@@ -131,11 +140,14 @@ macro_rules! generate_delete {
         //generate_struct!($entity);
 
         let entity_name = &($entity.entity);
+        let mod_name = format!("{}{}", entity_name, "_delete");
+
         println!("generate_delete");
+        println!("{}", mod_name);
 
         // Generate CRUD handlers
         quote::quote! {
-            mod #entity_name {
+            mod #mod_name {
                 use super::*;
                 use actix_web::{web, HttpResponse};
 
