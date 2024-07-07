@@ -1,12 +1,12 @@
 #[macro_export]
 macro_rules! generate_get_list {
-    ($entity:expr) => {
+    ($entity:expr, $app:ident) => {
 
         let entity_name = &($entity.entity);
         let mod_name = format!("{}{}", entity_name, "_get_list");
 
         quote::quote! {
-            mod #mod_name {
+            pub mod #mod_name {
                 use super::*;
                 use actix_web::{web, HttpResponse};
 
@@ -24,6 +24,10 @@ macro_rules! generate_get_list {
                 }
             }
         }
+
+        /*quote::quote! {
+            $app.service(#mod_name::read)
+        }*/
     };
 }
 
@@ -35,7 +39,7 @@ macro_rules! generate_get_by_id {
         let mod_name = format!("{}{}", entity_name, "_get_by_id");
 
         quote::quote! {
-            mod #mod_name {
+            pub mod #mod_name {
                 use super::*;
                 use actix_web::{web, HttpResponse};
 
@@ -53,18 +57,22 @@ macro_rules! generate_get_by_id {
                 }
             }
         }
+
+        /*quote::quote! {
+            $app.service(#mod_name::read)
+        }*/
     };
 }
 
 #[macro_export]
 macro_rules! generate_create {
-    ($entity:expr) => {
+    ($entity:expr, $app:ident) => {
 
         let entity_name = &($entity.entity);
         let mod_name = format!("{}{}", entity_name, "_create");
 
         quote::quote! {
-            mod #mod_name {
+            pub mod #mod_name {
                 use super::*;
                 use actix_web::{web, HttpResponse};
 
@@ -77,18 +85,22 @@ macro_rules! generate_create {
                 }
             }
         }
+
+        quote::quote! {
+            $app.service(#mod_name::create)
+        }
     };
 }
 
 #[macro_export]
 macro_rules! generate_update {
-    ($entity:expr) => {
+    ($entity:expr, $app:ident) => {
 
         let entity_name = &($entity.entity);
         let mod_name = format!("{}{}", entity_name, "_update");
 
         quote::quote! {
-            mod #mod_name {
+            pub mod #mod_name {
                 use super::*;
                 use actix_web::{web, HttpResponse};
 
@@ -102,18 +114,22 @@ macro_rules! generate_update {
                 }
             }
         }
+
+        quote::quote! {
+            $app.service(#mod_name::update)
+        }
     };
 }
 
 #[macro_export]
 macro_rules! generate_delete {
-    ($entity:expr) => {
+    ($entity:expr, $app:ident) => {
 
         let entity_name = &($entity.entity);
         let mod_name = format!("{}{}", entity_name, "_delete");
 
         quote::quote! {
-            mod #mod_name {
+            pub mod #mod_name {
                 use super::*;
                 use actix_web::{web, HttpResponse};
 
@@ -126,6 +142,10 @@ macro_rules! generate_delete {
                     HttpResponse::Ok().json(())
                 }
             }
+        }
+
+        quote::quote! {
+            $app.service(#mod_name::delete)
         }
     };
 }

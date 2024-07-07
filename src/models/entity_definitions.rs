@@ -4,7 +4,7 @@ use std::path::Path;
 use actix_web::web::ServiceConfig;
 use serde::Deserialize;
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Clone)]
 pub struct EntityDefinition {
     pub entity: String,
     #[serde(rename = "endpoints")]
@@ -12,14 +12,14 @@ pub struct EntityDefinition {
     pub fields: Vec<FieldDefinition>,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Clone)]
 pub struct FieldDefinition {
     pub name: String,
     #[serde(rename = "type")]
     pub field_type: String,
 }
 
-#[derive(Debug, Deserialize, PartialEq)]
+#[derive(Debug, Deserialize, PartialEq, Clone)]
 pub enum EndpointType {
     #[serde(rename = "GET_BY_ID")]
     GetById,

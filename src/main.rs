@@ -1,5 +1,5 @@
 use std::fs;
-use actix_web::{App, HttpServer, web};
+use actix_web::{App, get, HttpResponse, HttpServer, Responder, web};
 use utoipa::OpenApi;
 use utoipa_swagger_ui::SwaggerUi;
 use crate::models::entity_definitions::EntityDefinition;
@@ -35,9 +35,21 @@ async fn main() -> std::io::Result<()> {
     HttpServer::new(move || {
         let mut app = App::new();
 
+        app = app.service(hello);
+
         for entity in &entity_definitions {
 
-            generate_crud_handlers_new!(entity, app);
+            generate_crud_handlers_2!(entity);
+
+            let mod_name = format!("{}{}", entity.entity, "_get_list");
+
+            quote::quote! {
+                app = app.service(#mod_name::read)
+            };
+
+            //generate_crud_handlers_2!(entity, app);
+
+            //generate_crud_handlers_new!(entity, app);
 
             //app = app.configure();
             /*    .service(
@@ -51,6 +63,11 @@ async fn main() -> std::io::Result<()> {
     .bind("127.0.0.1:8080")?
     .run()
     .await
+}
+
+#[get("/asd")]
+async fn hello() -> impl Responder {
+    HttpResponse::Ok().body("Hello world!")
 }
 
 /*pub fn register(cfg: &mut web::ServiceConfig) {
