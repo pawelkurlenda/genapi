@@ -13,6 +13,25 @@ mod models;
 //#[openapi(paths(product::delete))]
 struct ApiDoc;
 
+/*#[macro_export]
+macro_rules! aaa {
+    ($entity:expr) => {
+        let paths = fs::read_dir("./generated_models").unwrap();
+
+        let mut entity_definitions: Vec<EntityDefinition> = Vec::new();
+
+        for path in paths {
+            let path = path.unwrap().path();
+            let entity_definition = EntityDefinition::new(&path);
+            entity_definitions.push(entity_definition);
+
+            println!("{}", entity_definition.entity);
+        }
+    };
+}
+
+aaa!(1);*/
+
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     let paths = fs::read_dir("./generated_models").unwrap();
@@ -25,13 +44,12 @@ async fn main() -> std::io::Result<()> {
         entity_definitions.push(entity_definition);
     }
 
-    /*for entity in &entity_definitions {
+    for entity in &entity_definitions {
         generate_crud_handlers_2!(entity);
         //let struct_definition = generate_struct!(entity);
     }
 
-    Ok(())*/
-
+    //Ok(());
     HttpServer::new(move || {
         let mut app = App::new();
 
@@ -41,10 +59,11 @@ async fn main() -> std::io::Result<()> {
 
             generate_crud_handlers_2!(entity);
 
-            let mod_name = format!("{}{}", entity.entity, "_get_list");
+            let mod_name = format!("{}{}", entity.entity, "_get_by_id");
 
             quote::quote! {
-                app = app.service(#mod_name::read)
+                app = app.service(crate::User_get_by_id::read);
+                println!("{}{}", entity.entity, "_get_by_id");
             };
 
             //generate_crud_handlers_2!(entity, app);
